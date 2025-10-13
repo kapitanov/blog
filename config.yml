@@ -1,0 +1,74 @@
+baseURL: "https://kapitanov.github.io/personal-blog/"
+title: Thoughts of a software engineer
+copyright: "© [Albert Kapitanov](https://github.com/kapitanov)"
+theme:
+  - hugo-PaperMod
+
+enableInlineShortcodes: true
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+enableEmoji: true
+pygmentsUseClasses: true
+mainsections:
+  - "posts"
+
+minify:
+  disableXML: true
+  minifyOutput: true
+
+pagination:
+  disableAliases: false
+  pagerSize: 10
+
+languages:
+  en:
+    languageName: "English"
+    menu:
+      main:
+        - name: GitHub
+          url: https://github.com/kapitanov
+        - name: LinkedIn
+          url: https://www.linkedin.com/in/albertkapitanov/
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
+params:
+  env: production # to enable google analytics, opengraph, twitter-cards and schema.
+  description: Thoughts of a software engineer
+  author: Albert Kapitanov
+  defaultTheme: light
+  disableThemeToggle: true
+  ShowShareButtons: true
+  ShowReadingTime: true
+  displayFullLangName: true
+  ShowPostNavLinks: false
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowRssButtonInSectionTermList: true
+  ShowAllPagesInArchive: true
+  ShowPageNums: true
+  ShowToc: true
+  socialIcons:
+    - name: github
+      url: https://github.com/kapitanov
+    - name: linkedin
+      url: https://www.linkedin.com/in/albertkapitanov/
+  # analytics:
+  #     google:
+  #         SiteVerificationTag: "XYZabc"
+  assets:
+    disableHLJS: false
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    noClasses: false
+    codeFences: true

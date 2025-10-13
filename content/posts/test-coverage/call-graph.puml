@@ -1,0 +1,33 @@
+@startuml
+
+state "discountMul := 1.0" as Initial #yellow
+state "if userAge < 18" as If1 #yellow
+state "discountMul *= 0.9" as If1True  #yellow
+state "/* do nothing */" as If1False
+state "if !isUserActive" as If2A #yellow
+state "if !isUserActive" as If2B
+state "discountMul *= 1.1" as If2ATrue #yellow
+state "/* do nothing */" as If2AFalse
+state "discountMul *= 1.1" as If2BTrue
+state "/* do nothing */" as If2BFalse
+state "return discountMul" as Return1 #yellow
+state "return discountMul" as Return2
+state "return discountMul" as Return3
+state "return discountMul" as Return4
+
+[*]       --> Initial
+Initial   --> If1
+If1       --> If1True   : true
+If1       --> If1False  : false
+If1True   --> If2A
+If1False  --> If2B
+If2A      --> If2ATrue  : true
+If2A      --> If2AFalse : false
+If2B      --> If2BTrue  : true
+If2B      --> If2BFalse : false
+If2ATrue  --> Return1
+If2AFalse --> Return2
+If2BTrue  --> Return3
+If2BFalse --> Return4
+
+@enduml
