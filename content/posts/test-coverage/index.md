@@ -114,7 +114,7 @@ I'm going to run these tests with different sets of test cases and measure cover
 $ go test -covermode=count -coverprofile=/dev/null
 PASS
 coverage: 100.0% of statements
-ok      github.com/kapitanov/personal-blog/posts/code-examples/code-1   0.211s
+ok      github.com/kapitanov/blog/posts/code-examples/code-1   0.211s
 ```
 
 My end goal for now is to reach 100% coverage,

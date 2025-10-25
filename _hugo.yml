@@ -1,4 +1,4 @@
-baseURL: "https://kapitanov.github.io/personal-blog/"
+baseURL: "https://kapitanov.github.io/blog/"
 languageCode: "en-us"
 title: "Thoughts of a software engineer"
 # theme = "minima"

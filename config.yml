@@ -1,4 +1,4 @@
-baseURL: "https://kapitanov.github.io/personal-blog/"
+baseURL: "https://kapitanov.github.io/blog/"
 title: Thoughts of a software engineer
 copyright: "© [Albert Kapitanov](https://github.com/kapitanov)"
 theme:

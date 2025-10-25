@@ -2,7 +2,7 @@
 
 This is my personal blog built with [Hugo](https://gohugo.io/) and hosted on [GitHub Pages](https://pages.github.com/).
 
-This blog is hosted at [kapitanov.github.io/personal-blog/](https://kapitanov.github.io/personal-blog/)
+This blog is hosted at [kapitanov.github.io/blog/](https://kapitanov.github.io/blog/)
 and also is available at [Medium.com](https://medium.com/@albert.kapitanov.77).
 
 ## Useful commands
