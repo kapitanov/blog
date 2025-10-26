@@ -11,14 +11,14 @@ Let's try to derive the theorem from the ground up — and hopefully we will dev
 As a remark, I'd like to note: from time to time, software engineers tend to say _"CAP theorem says that you can only have two out of three properties — C, A and P"_.
 I hope that by the end of this article, you will see why this is not an accurate statement of the theorem and doesn't really reflect its meaning.
 
-# Core terminology
+## Core terminology
 
 Before we start, let's clarify the core terminology used in the CAP theorem.
 The theorem talks about three properties of distributed systems:
 consistency, availability and partition tolerance.
 These terms might be ambiguous, so let's define them clearly:
 
-- **Consistency.**
+- **Consistency**
 
   In the CAP theorem, consistency means _linearizability_ — every read operation returns the most recent write operation's value.
   In other words, all nodes in the distributed system see the same data at the same time.
@@ -26,7 +26,7 @@ These terms might be ambiguous, so let's define them clearly:
   Therefore, here we only speak about strong consistency.
   Eventual consistency is out of scope for the CAP theorem, as well as other kinds of consistency.
 
-- **Availability.**
+- **Availability**
 
   A distributed system is considered available if every request (read or write) eventually receives a response,
   regardless of the state of any individual node in the system.
@@ -34,7 +34,7 @@ These terms might be ambiguous, so let's define them clearly:
   Availability means that every operational node of the system can respond to all supported kinds of requests.
   Degrading the system's functionality (e.g., switching it into a read-only mode) is considered as a loss of availability.
 
-- **Partition tolerance:**
+- **Partition tolerance**
 
   This is the trickiest term to define — and often is the hardest to remember.
 
@@ -48,7 +48,7 @@ These terms might be ambiguous, so let's define them clearly:
   that makes certain nodes unable to communicate with other nodes.
   The theorem does not consider other types of failures: node crashes, message losses, latency spikes, uni-directional communication failures, etc.
 
-# Setting up the stage
+## Setting up the stage
 
 Now, once we have defined the core terminology, let's set the stage for our thought experiment!
 
@@ -104,7 +104,7 @@ thus allowing an arbitrary number of nodes instead of just two.
 Or, even better, try to build a system based on [CRDTs](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type)!
 But for our thought experiment, the simple approach is sufficient.
 
-# Modeling a network failure
+## Modeling a network failure
 
 ![](network-failure.png)
 
@@ -141,7 +141,7 @@ but we won't go that far.
 Obviously, it's not the ideal behavior, but in fact it's the worst possible one!
 So now we will try to find a better way to handle network failures.
 
-## Trying to maintain consistency
+### Trying to maintain consistency
 
 What do we need to do to maintain strong consistency in the presence of a network failure?
 The answer is simple: we have to ensure that both nodes always have the same value.
@@ -159,8 +159,6 @@ The algorithm would work as follows:
 
 ![](network-failure-2.png)
 
-This scenario works as follows:
-
 Analysing this scenario, we can see that:
 
 - Consistency is maintained — node B will always have the same old value as node A.
@@ -170,7 +168,7 @@ Analysing this scenario, we can see that:
 Thus, in CAP terminology, during a network partition, our system is consistent and partition tolerant, but not available.
 We should call it a **CP system** — it prioritises consistency over availability during a network partition.
 
-## Trying to maintain availability
+### Trying to maintain availability
 
 What do we need to do to maintain availability in the presence of a network failure?
 The answer is simple too: we have to ensure that both nodes are able to handle non-successful data forwards.
@@ -185,8 +183,6 @@ The algorithm would work as follows:
 
 ![](network-failure-3.png)
 
-This scenario works as follows:
-
 Analysing this scenario, we can see that:
 
 - Consistency is lost — node B still has the old value `123456` while node A now stores the new value `234567`.
@@ -196,7 +192,7 @@ Analysing this scenario, we can see that:
 Thus, in CAP terminology, during a network partition, our system is available and partition tolerant, but not available.
 We should call it an **AP system** — it prioritises availability over consistency during a network partition.
 
-## Trying to maintain both consistency and availability
+### Trying to maintain both consistency and availability
 
 Clearly, when the network communication is disrupted,
 we cannot have both strong consistency and availability at the same time:
@@ -207,36 +203,36 @@ we cannot have both strong consistency and availability at the same time:
 Our little thought experiment hints us that in the presence of a network failure,
 consistency and availability are mutually exclusive.
 
-# Further challenges
+## Further challenges
 
 Before we conclude, let's consider some challenges and questions.
 
-- **What if we allow only GET requests to be processed on both nodes, but SET requests only on one node?**
+### What if we allow only GET requests to be processed on both nodes, but SET requests only on one node?
 
-  Let's say that node A is the "master" node and is allowed to process both GET and SET requests,
-  while the node B is a "replica" node and can only process GET requests.
+Let's say that node A is the "master" node and is allowed to process both GET and SET requests,
+while the node B is a "replica" node and can only process GET requests.
 
-  ![](master-replica.png)
+![](master-replica.png)
 
-  In this case, we would maintain availability — both nodes would handle requests the same way regardless of the network connection state.
-  But the consistency would be lost — if the network is down, the node B would not receive any updates from the node A.
+In this case, we would maintain availability — both nodes would handle requests the same way regardless of the network connection state.
+But the consistency would be lost — if the network is down, the node B would not receive any updates from the node A.
 
-  This, a master-replica architecture still falls into the CAP theorem's scope.
+Thus, a master-replica architecture still falls into the CAP theorem's scope.
 
-- **What if we add more nodes?**
+### What if we add more nodes?
 
-  So far we have only two nodes in our system. What would change if we add more nodes?
+So far we have only two nodes in our system. What would change if we add more nodes?
 
-  The idea is the same: a network partition would split the system into two or more independent subsystems,
-  and we would have to choose between consistency and availability for each subsystem.
-  Sometimes, a network partition could isolate a single node from the rest of the system,
-  sometimes it could split the system into two or more groups of nodes — but the principle remains the same.
+The idea is the same: a network partition would split the system into two or more independent subsystems,
+and we would have to choose between consistency and availability for each subsystem.
+Sometimes, a network partition could isolate a single node from the rest of the system,
+sometimes it could split the system into two or more groups of nodes — but the principle remains the same.
 
-  ![](3-nodes-1.png)
+![](3-nodes-1.png)
 
-  ![](3-nodes-2.png)
+![](3-nodes-2.png)
 
-# Could a system be not partition tolerant?
+## Could a system be not partition tolerant?
 
 So far, we have only considered partition tolerant systems.
 And we have figured out that during a network partition, we have to choose between consistency and availability while maintaining partition tolerance.
@@ -269,7 +265,7 @@ thus qualifying as partition tolerant.
 However, I would never recommend building such a system in practice!
 A watchdog-based recovery mechanism has significant drawbacks, such as potential data loss, long recovery times and increased system complexity.
 
-# Finally, the CAP theorem
+## Finally, the CAP theorem
 
 At this point, our thought experiment has led us to the CAP theorem itself — and we now can state it clearly:
 
