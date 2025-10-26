@@ -1,0 +1,23 @@
+@startuml
+
+node NodeA [
+    Node A
+    <master>
+]
+node NodeB [
+    Node B
+    <replica>
+]
+
+actor "User 1" as User1
+actor "User 2" as User2
+
+NodeA -r-> NodeB : data changes
+
+User1 -[#green]-> NodeA  : GET
+User1 -[#red]-> NodeA : SET
+
+User2 -[#red]-> NodeA : SET
+User2 -[#green]-> NodeB : GET
+
+@enduml

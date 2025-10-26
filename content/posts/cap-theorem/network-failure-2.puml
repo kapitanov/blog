@@ -1,0 +1,33 @@
+@startuml
+
+actor "User 1" as U1
+actor "User 2" as U2
+participant "Node A" as NodeA
+participant "Node B" as NodeB
+
+=== Before SET operation ===
+
+U1 -> NodeA : GET
+NodeA -> U1 : 123456
+
+U2 -> NodeB : GET
+NodeB -> U2 : 123456
+
+=== The SET operation itself ===
+
+U1 -> NodeA : SET 234567
+NodeA -> NodeA : Set value to 234567
+NodeA -> NodeB : SET 234567
+NodeB --> NodeA : Error! Timeout.
+NodeA -> NodeA : Revert to the old  value 123456
+NodeA -> U1 : Error
+
+=== After SET operation ===
+
+U1 -> NodeA : GET
+NodeA -> U1 : 123456
+
+U2 -> NodeB : GET
+NodeB -> U2 : 123456
+
+@enduml

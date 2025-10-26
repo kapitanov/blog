@@ -1,0 +1,16 @@
+@startuml
+
+title "3-node system splitted into 2 partitions"
+
+
+node "Node A" as NodeA
+folder {
+node "Node B" as NodeB
+node "Node C" as NodeC
+}
+
+NodeA <..> NodeB : No connection
+NodeB <-r-> NodeC : No connection
+NodeA <..> NodeC : No connection
+
+@enduml

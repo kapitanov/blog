@@ -1,0 +1,14 @@
+@startuml
+
+node "Node A" as NodeA
+node "Node B" as NodeB
+
+actor "User 1" as User1
+actor "User 2" as User2
+
+NodeA <-r-> NodeB
+
+User1 -d-> NodeA : GET, SET
+User2 -d-> NodeB : GET, SET
+
+@enduml
