@@ -27,7 +27,7 @@ languages:
     languageName: "English"
     menu:
       main:
-        - name: GitHub
+        - name: github
           url: https://github.com/kapitanov
         - name: LinkedIn
           url: https://www.linkedin.com/in/albertkapitanov/
@@ -62,6 +62,12 @@ params:
   # analytics:
   #     google:
   #         SiteVerificationTag: "XYZabc"
+  homeInfoParams:
+    Title: Welcome to my personal blog!
+    Content: |
+      I am Albert Kapitanov, a seasoned software engineer with over 15+ years of experience in building robust and scalable backend systems.
+
+      Here, I write about various topics including software architecture, design patterns, best practices, and the latest trends in the tech industry.
   assets:
     disableHLJS: false
 
