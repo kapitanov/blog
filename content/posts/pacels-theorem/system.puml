@@ -1,0 +1,21 @@
+@startuml
+
+node "Node 1" as Node1
+node "Node 2" as Node2
+node "Node 3" as Node3
+node "Node 4" as Node4
+node "Node 5" as Node5
+
+cloud Network as Net
+
+Node5 <-d-> Net
+Node4 <-d-> Net
+Node3 <-d-> Net
+Node2 <-d-> Net
+Node1 <-d-> Net
+
+actor "User" as User
+
+User -d-> Node1 : Write
+
+@enduml
