@@ -1,17 +1,17 @@
 ---
-title: "The PACELS Theorem — in a few words"
+title: "The PACELC Theorem — in a few words"
 date: 2025-12-08T00:00:00Z
 draft: false
 ---
 
 [The last time](../cap-theorem/index.md) we spoke about the CAP theorem,
 we saw how it describes the trade-offs between Consistency, Availability when a system experiences a Network Partitioning.
-Today, we will explore another side of distributed systems trade-off: the PACELS theorem.
+Today, we will explore another side of distributed systems trade-off: the PACELC theorem.
 
-The PACELS theorem (often pronounced as `pack-else`) was proposed by [Daniel Abadi in 2010](https://dbmsmusings.blogspot.com/2010/04/problems-with-cap-and-yahoos-little.html)
+The PACELC theorem (often pronounced as `pack-else`) was proposed by [Daniel Abadi in 2010](https://dbmsmusings.blogspot.com/2010/04/problems-with-cap-and-yahoos-little.html)
 as an extension to the CAP theorem.
 While the CAP theorem focuses only on the behavior of a distributed system during a network partition,
-the PACELS theorem also pays lots of attention to a different state of a system - a state without any network partitions.
+the PACELC theorem also pays lots of attention to a different state of a system - a state without any network partitions.
 
 Similarly as we did with the CAP theorem, we won't just quote it and call it a day, instead, we will try to devise it ourselves from the ground up.
 
@@ -19,10 +19,14 @@ Similarly as we did with the CAP theorem, we won't just quote it and call it a d
 
 But first, we should agree on the terminology! Two terms will be important for us today:
 
-- **Latency** - the PACELS theorem operates with the Latency as a (client-observed) duration of a write operation.
+- **Latency** - the PACELC theorem operates with the Latency as a (client-observed) duration of a write operation.
   The longer a client would have to wait until a write operation he has initiated completed - the higher the latency would be.
-- **Consistency** - while the CAP theorem operates only with the strong consistency (linearizability), for the PACELS theorem the consistency is a spectrum:
+  This is not only the duration of the write operation on a single node, but the overall duration of the write operation as observed by the client.
+  For clarity, the network round-trip time between the client and the system is not included in the latency.
+- **Consistency** - while the CAP theorem operates only with the strong consistency (linearizability), for the PACELC theorem the consistency is a spectrum:
   it might vary from the strong consistency to the eventual consistency.
+  For today's discussion, we will consider the consistency as the degree to which all nodes in the system have the same data after a write operation completes,
+  ranging from 1 (only entry node has written the new data) to N (all nodes have written the new data).
 
 ## Setting up the stage
 
@@ -118,7 +122,7 @@ While the strong consistency is lost, the system would still provide a reasonabl
 A good example of such a system is MongoDB, which allows clients to configure the write concern for write operations,
 including options for majority quorum - via so called **write concern** option.
 
-## Finally, the PACELS theorem
+## Finally, the PACELC theorem
 
 While we can clearly see the connection between our thought experiment and the CAP theorem, there are some important differences to note:
 
@@ -127,7 +131,7 @@ While we can clearly see the connection between our thought experiment and the C
 - The CAP theorem presents a binary choice between consistency and availability during partitions.
   We demonstrated a spectrum of trade-offs between consistency and latency in the absence of partitions.
 
-All of this leads us to the PACELS theorem:
+All of this leads us to the PACELC theorem:
 
 > In the presence of a network partition, a distributed system must choose between strong consistency and availability.
 > Else, when there is no network partition, a distributed system must choose between latency and the degree of consistency.
@@ -144,7 +148,7 @@ Now, it's a great theorem - its whole meaning is encoded in its name!
 I would like to note one point, important for completeness.
 
 In the CAP theorem, we speak about strong consistency (linearizability) only.
-However, in the PACELS theorem, the consistency is a spectrum - from strong consistency to eventual consistency.
+However, in the PACELC theorem, the consistency is a spectrum - from strong consistency to eventual consistency.
 And eventual consistency is non-binary - there are different degrees of eventual consistency:
 
 - Ensuring that N-1 nodes might serve the stale data for some time is a weaker form of eventual consistency.
