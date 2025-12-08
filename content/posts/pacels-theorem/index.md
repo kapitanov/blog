@@ -6,14 +6,14 @@ draft: false
 
 [The last time](../cap-theorem/index.md) we spoke about the CAP theorem,
 we saw how it describes the trade-offs between Consistency, Availability when a system experiences a Network Partitioning.
-Today, we will expore another side of distributed systems trade-off: the PACELS theorem.
+Today, we will explore another side of distributed systems trade-off: the PACELS theorem.
 
 The PACELS theorem (often pronounced as `pack-else`) was proposed by [Daniel Abadi in 2010](https://dbmsmusings.blogspot.com/2010/04/problems-with-cap-and-yahoos-little.html)
 as an extension to the CAP theorem.
 While the CAP theorem focuses only on the behavior of a distributed system during a network partition,
 the PACELS theorem also pays lots of attention to a different state of a system - a state without any network partitions.
 
-Similarily as we did with the CAP theorem, we won't just quote it and call it a day, instead, we will try to devise it outselves from the ground up.
+Similarly as we did with the CAP theorem, we won't just quote it and call it a day, instead, we will try to devise it ourselves from the ground up.
 
 ## Terms
 
@@ -26,8 +26,8 @@ But first, we should agree on the terminology! Two terms will be important for u
 
 ## Setting up the stage
 
-We are going to use a simple key-value store as a model for our throught experiment.
-This distibuted system would:
+We are going to use a simple key-value store as a model for our thought experiment.
+This distributed system would:
 
 - be able to execute only one operation - `write`;
 - consist of N nodes (obviously, at least two nodes - otherwise it won't be a distributed system);
@@ -84,7 +84,7 @@ However, this comes at the cost of reduced consistency - there is a window of ti
 If a read operation is performed during this window, it may return stale data from nodes that have not yet received the latest write.
 
 Even worse, a failure of the entry node before replication completes could lead to data loss,
-despire the write operation being acknowledged to the client!
+despite the write operation being acknowledged to the client!
 
 ## The trade-off
 
@@ -116,7 +116,7 @@ While the strong consistency is lost, the system would still provide a reasonabl
   That said, the latency would still be higher than waiting for just one node, but it would be affected in a lesser degree by the latency spikes on a single node.
 
 A good example of such a system is MongoDB, which allows clients to configure the write concern for write operations,
-including options for majority quorum - via so called **write consern** option.
+including options for majority quorum - via so called **write concern** option.
 
 ## Finally, the PACELS theorem
 
@@ -141,7 +141,7 @@ Now, it's a great theorem - its whole meaning is encoded in its name!
 
 ## P.S.
 
-I would like to note one point, important for the completeness.
+I would like to note one point, important for completeness.
 
 In the CAP theorem, we speak about strong consistency (linearizability) only.
 However, in the PACELS theorem, the consistency is a spectrum - from strong consistency to eventual consistency.
