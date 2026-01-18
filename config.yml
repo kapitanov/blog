@@ -27,7 +27,7 @@ languages:
     languageName: "English"
     menu:
       main:
-        - name: github
+        - name: GitHub
           url: https://github.com/kapitanov
         - name: LinkedIn
           url: https://www.linkedin.com/in/albertkapitanov/
